@@ -16,7 +16,7 @@
 
     <div class="filters">
       <button class="filter-btn active" onclick="filter('all', this)">
-        <span class="dot" style="background:#888780"></span>Alle (20)
+        <span class="dot" style="background:#888780"></span>Alle (<span id="all-count"></span>)
       </button>
       <button class="filter-btn" onclick="filter('cat-prompt', this)">
         <span class="dot" style="background:#7F77DD"></span>Prompting
@@ -67,6 +67,7 @@
       render(items);
     }
 
+    document.getElementById('all-count').textContent = data.length;
     render(data);
   </script>
 </body>
