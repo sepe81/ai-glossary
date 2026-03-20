@@ -53,8 +53,14 @@
         `;
         c.addEventListener('click', () => {
           const wasExpanded = c.classList.contains('expanded');
-          document.querySelectorAll('.card.expanded').forEach(x => x.classList.remove('expanded'));
-          if (!wasExpanded) c.classList.add('expanded');
+          document.querySelectorAll('.card').forEach(x => {
+            x.classList.remove('expanded');
+            x.querySelector('.card-hint').textContent = 'Tippen zum Aufklappen';
+          });
+          if (!wasExpanded) {
+            c.classList.add('expanded');
+            c.querySelector('.card-hint').textContent = 'Tippen zum Schließen';
+          }
         });
         g.appendChild(c);
       });
