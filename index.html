@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Das KI-Glossar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <h1>Das KI-Glossar</h1>
+      <p>Begriffe, die du in jedem KI-Gespräch brauchst — einfach erklärt</p>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" onclick="filter('all', this)">
+        <span class="dot" style="background:#888780"></span>Alle (20)
+      </button>
+      <button class="filter-btn" onclick="filter('cat-prompt', this)">
+        <span class="dot" style="background:#7F77DD"></span>Prompting
+      </button>
+      <button class="filter-btn" onclick="filter('cat-model', this)">
+        <span class="dot" style="background:#1D9E75"></span>Modelle &amp; Reasoning
+      </button>
+      <button class="filter-btn" onclick="filter('cat-agent', this)">
+        <span class="dot" style="background:#BA7517"></span>Agenten &amp; Skills
+      </button>
+      <button class="filter-btn" onclick="filter('cat-misc', this)">
+        <span class="dot" style="background:#D85A30"></span>Grundbegriffe
+      </button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <script src="buzzwords.js"></script>
+  <script>
+
+    function render(items) {
+      const g = document.getElementById('grid');
+      g.innerHTML = '';
+      items.forEach(d => {
+        const c = document.createElement('div');
+        c.className = 'card ' + d.cat;
+        c.innerHTML = `
+          <div class="cat-pill"><span class="dot"></span>${d.label}</div>
+          <div class="card-term">${d.term}</div>
+          <div class="card-short">${d.short}</div>
+          <div class="card-detail">${d.detail}</div>
+          <div class="card-hint">Tippen zum Aufklappen</div>
+        `;
+        c.addEventListener('click', () => {
+          const wasExpanded = c.classList.contains('expanded');
+          document.querySelectorAll('.card.expanded').forEach(x => x.classList.remove('expanded'));
+          if (!wasExpanded) c.classList.add('expanded');
+        });
+        g.appendChild(c);
+      });
+    }
+
+    function filter(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const items = cat === 'all' ? data : data.filter(d => d.cat === cat);
+      render(items);
+    }
+
+    render(data);
+  </script>
+</body>
+</html>
