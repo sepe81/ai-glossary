@@ -11,6 +11,7 @@
   --border-primary: rgba(0,0,0,0.35);
   --radius-md: 8px;
   --radius-lg: 12px;
+  --card-hover-shadow: rgba(0,0,0,0.08);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,6 +29,7 @@
   .cat-model  .cat-pill { background: #085041 !important; color: #9FE1CB !important; }
   .cat-agent  .cat-pill { background: #633806 !important; color: #FAC775 !important; }
   .cat-misc   .cat-pill { background: #712B13 !important; color: #F5C4B3 !important; }
+  --card-hover-shadow: rgba(0,0,0,0.3);
 }
 
 body {
@@ -94,9 +96,13 @@ body {
   border-radius: var(--radius-lg);
   padding: 1rem;
   cursor: pointer;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
 }
-.card:hover { border-color: var(--border-secondary); }
+.card:hover {
+  border-color: var(--border-secondary);
+  box-shadow: 0 4px 12px var(--card-hover-shadow);
+  transform: translateY(-2px);
+}
 .card.expanded { border-color: var(--border-primary); }
 
 .cat-pill {
