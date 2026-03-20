@@ -4,6 +4,8 @@
 
 An interactive glossary of the most important AI terms — explained in plain language for anyone who wants to join the conversation without a technical background.
 
+**🔗 Live-Version:** <https://sepe81.github.io/ai-glossary/>
+
 ---
 
 ## About
