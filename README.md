@@ -39,6 +39,20 @@ Just open `index.html` in your browser. No build step, no server needed.
 
 ---
 
+## Contributing
+
+Categories follow a learning progression:
+
+1. **Grundbegriffe** — what AI is and how it works at a basic level
+2. **Modelle & Reasoning** — the models themselves and how they think
+3. **Prompting** — how to interact with models effectively
+4. **Agenten & Skills** — autonomous and multi-step AI behaviour
+
+Entries are sorted **basic to advanced** — place a new term after the concepts it builds on.
+Use a German `de.term` when a common German word is in everyday use; otherwise keep the English term in both objects.
+
+---
+
 ## License
 
 MIT

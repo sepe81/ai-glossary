@@ -22,6 +22,8 @@ const ui = {
   },
 };
 
+// Entries are ordered basic → advanced within each category.
+// Category order: Grundbegriffe → Modelle & Reasoning → Prompting → Agenten & Skills
 const data = [
   // --- Grundbegriffe: basic → advanced ---
   {
