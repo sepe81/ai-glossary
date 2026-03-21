@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" id="html-root">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,25 +11,31 @@
 <body>
   <div class="wrap">
     <div class="header">
-      <h1>Das KI-Glossar</h1>
-      <p>Begriffe, die du in jedem KI-Gespräch brauchst — einfach erklärt</p>
+      <div class="header-top">
+        <h1 id="header-title">Das KI-Glossar</h1>
+        <div class="lang-toggle">
+          <button id="btn-de" class="lang-btn active" onclick="setLang('de')">DE</button>
+          <button id="btn-en" class="lang-btn" onclick="setLang('en')">EN</button>
+        </div>
+      </div>
+      <p id="header-subtitle">Begriffe, die du in jedem KI-Gespräch brauchst — einfach erklärt</p>
     </div>
 
     <div class="filters">
-      <button class="filter-btn active" onclick="filter('all', this)">
-        <span class="dot" style="background:#888780"></span>Alle (<span id="all-count"></span>)
+      <button class="filter-btn active" data-cat="all" onclick="filter('all', this)">
+        <span class="dot" style="background:#888780"></span><span class="btn-label">Alle (<span id="all-count"></span>)</span>
       </button>
-      <button class="filter-btn" onclick="filter('cat-prompt', this)">
-        <span class="dot" style="background:#7F77DD"></span>Prompting
+      <button class="filter-btn" data-cat="cat-misc" onclick="filter('cat-misc', this)">
+        <span class="dot" style="background:#D85A30"></span><span class="btn-label">Grundbegriffe</span>
       </button>
-      <button class="filter-btn" onclick="filter('cat-model', this)">
-        <span class="dot" style="background:#1D9E75"></span>Modelle &amp; Reasoning
+      <button class="filter-btn" data-cat="cat-model" onclick="filter('cat-model', this)">
+        <span class="dot" style="background:#1D9E75"></span><span class="btn-label">Modelle &amp; Reasoning</span>
       </button>
-      <button class="filter-btn" onclick="filter('cat-agent', this)">
-        <span class="dot" style="background:#BA7517"></span>Agenten &amp; Skills
+      <button class="filter-btn" data-cat="cat-prompt" onclick="filter('cat-prompt', this)">
+        <span class="dot" style="background:#7F77DD"></span><span class="btn-label">Prompting</span>
       </button>
-      <button class="filter-btn" onclick="filter('cat-misc', this)">
-        <span class="dot" style="background:#D85A30"></span>Grundbegriffe
+      <button class="filter-btn" data-cat="cat-agent" onclick="filter('cat-agent', this)">
+        <span class="dot" style="background:#BA7517"></span><span class="btn-label">Agenten &amp; Skills</span>
       </button>
     </div>
 
@@ -38,29 +44,34 @@
 
   <script src="buzzwords.js"></script>
   <script>
+    let currentLang = localStorage.getItem('lang') || 'de';
 
     function render(items) {
+      const lang = currentLang;
       const g = document.getElementById('grid');
       g.innerHTML = '';
       items.forEach(d => {
+        const t = d[lang];
+        const displayTerm = d[lang].term;
+        const catLabel = categories[d.cat][lang];
         const c = document.createElement('div');
         c.className = 'card ' + d.cat;
         c.innerHTML = `
-          <div class="cat-pill"><span class="dot"></span>${d.label}</div>
-          <div class="card-term">${d.term}</div>
-          <div class="card-short">${d.short}</div>
-          <div class="card-detail">${d.detail}</div>
-          <div class="card-hint">Tippen zum Aufklappen</div>
+          <div class="cat-pill"><span class="dot"></span>${catLabel}</div>
+          <div class="card-term">${displayTerm}</div>
+          <div class="card-short">${t.short}</div>
+          <div class="card-detail">${t.detail}</div>
+          <div class="card-hint">${ui[lang].expand}</div>
         `;
         c.addEventListener('click', () => {
           const wasExpanded = c.classList.contains('expanded');
           document.querySelectorAll('.card').forEach(x => {
             x.classList.remove('expanded');
-            x.querySelector('.card-hint').textContent = 'Tippen zum Aufklappen';
+            x.querySelector('.card-hint').textContent = ui[currentLang].expand;
           });
           if (!wasExpanded) {
             c.classList.add('expanded');
-            c.querySelector('.card-hint').textContent = 'Tippen zum Schließen';
+            c.querySelector('.card-hint').textContent = ui[currentLang].collapse;
           }
         });
         g.appendChild(c);
@@ -74,8 +85,33 @@
       render(items);
     }
 
+    function setLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      document.getElementById('html-root').lang = lang;
+      document.getElementById('header-title').textContent = ui[lang].title;
+      document.getElementById('header-subtitle').textContent = ui[lang].subtitle;
+      document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
+        const cat = btn.dataset.cat;
+        const label = btn.querySelector('.btn-label');
+        if (cat === 'all') {
+          label.innerHTML = ui[lang].all + ' (<span id="all-count">' + data.length + '</span>)';
+        } else {
+          label.textContent = categories[cat][lang];
+        }
+      });
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn-' + lang).classList.add('active');
+      const activeBtn = document.querySelector('.filter-btn.active');
+      const activeCat = activeBtn ? activeBtn.dataset.cat : 'all';
+      const items = activeCat === 'all' ? data : data.filter(d => d.cat === activeCat);
+      render(items);
+    }
+
+    // init
     document.getElementById('all-count').textContent = data.length;
-    render(data);
+    if (currentLang !== 'de') setLang(currentLang);
+    else render(data);
   </script>
 </body>
 </html>

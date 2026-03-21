@@ -43,14 +43,42 @@ body {
 .wrap { max-width: 900px; margin: 0 auto; }
 
 .header { margin-bottom: 1.5rem; }
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
 .header h1 {
   font-family: 'Syne', sans-serif;
   font-size: 28px;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 4px;
 }
 .header p { font-size: 14px; color: var(--text-secondary); }
+
+.lang-toggle {
+  display: flex;
+  gap: 4px;
+}
+.lang-btn {
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 0.5px solid var(--border-secondary);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.lang-btn:hover { background: var(--bg-secondary); }
+.lang-btn.active {
+  color: var(--text-primary);
+  border-color: var(--border-primary);
+  background: var(--bg-secondary);
+}
 
 .filters {
   display: flex;
